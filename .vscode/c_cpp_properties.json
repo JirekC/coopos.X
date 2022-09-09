@@ -1,0 +1,25 @@
+{
+    "configurations": [
+        {
+            "name": "PIC24F",
+            "includePath": [
+                "c:/Program Files/Microchip/xc16/v1.70/support/generic/**",
+                "c:/Program Files/Microchip/xc16/v1.70/support/PIC24F/**",
+                "c:/Program Files/Microchip/xc16/v1.70/include/**",
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/src"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE",
+                "__PIC24FJ256DA210__",
+                "__XC16"
+            ],
+            "compilerPath": "c:/Program Files/Microchip/xc16/v1.70/bin/xc16-gcc.exe",
+            "cStandard": "c99",
+            "intelliSenseMode": "${default}"
+        }
+    ],
+    "version": 4
+}

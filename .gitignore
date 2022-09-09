@@ -1,0 +1,6 @@
+build
+debug
+dist/default/production/*
+
+# don't ignore output hex file(s)
+!dist/default/production/*.hex

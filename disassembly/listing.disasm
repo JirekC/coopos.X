@@ -1,0 +1,340 @@
+Disassembly Listing for simulations
+Generated From:
+C:/JURA/FTProot/BM/newGO/FW/simulations.X/dist/default/production/simulations.X.production.elf
+8.9.2022 15:58:17
+
+---  C:/JURA/FTProot/BM/newGO/FW/simulations.X/src/main.c  ----------------------------------------------
+1:                 /*
+2:                  * File:   main.c
+3:                  * Author: Jura
+4:                  *
+5:                  * Created on 7. zá?í 2022, 21:02
+6:                  * 
+7:                  * @note compile witch "-std=c99" option
+8:                  */
+9:                 
+10:                #include "coopos.h"
+11:                #include "demo_tasks.h"
+12:                
+13:                task_context_t tasks[MAX_TASKS];
+14:                kernel_context_t kernel_context;
+15:                
+16:                int main(void)
+17:                {
+000410  FA0002     LNK #0x2
+18:                    kernel_context.splim = SPLIM; // backup main's stack-limit
+000412  800100     MOV SPLIM, W0
+000414  884BA0     MOV W0, 0x974
+19:                    kernel_context.nr_of_registered_tasks = 0;
+000416  209760     MOV #0x976, W0
+000418  EB4080     CLR.B W1
+00041A  784801     MOV.B W1, [W0]
+20:                    
+21:                    /*** CPU & HW initialization ***/
+22:                    SystemInit();
+00041C  07FF96     RCALL SystemInit
+23:                    /******/
+24:                    
+25:                    /*** Tasks initialization ***/
+26:                    TasksInit();
+00041E  07FFF4     RCALL TasksInit
+27:                    /******/
+28:                
+29:                    /*** simple round-robin scheduler ***/
+30:                    while(1)
+31:                    {
+32:                        for(uint8_t task_nr = 0; task_nr < kernel_context.nr_of_registered_tasks; task_nr++)
+000420  EB4000     CLR.B W0
+000422  784F00     MOV.B W0, [W14]
+000424  370035     BRA .L2
+00048E  E84F1E     INC.B [W14], [W14]
+000490  209760     MOV #0x976, W0
+000492  784010     MOV.B [W0], W0
+000494  504F9E     SUB.B W0, [W14], [W15]
+000496  3EFFC7     BRA GTU, .L6
+33:                        {
+34:                            ClrWdt(); // watchdog is checking cooperation of all tasks
+000426  FE6000     CLRWDT
+35:                            if(tasks[task_nr].sleep_for > 0)
+000428  FB809E     ZE [W14], W1
+00042A  2002A0     MOV #0x2A, W0
+00042C  B98800     MUL.SS W1, W0, W0
+00042E  780000     MOV W0, W0
+000430  200241     MOV #0x24, W1
+000432  408080     ADD W1, W0, W1
+000434  208000     MOV #0x800, W0
+000436  408000     ADD W1, W0, W0
+000438  780010     MOV [W0], W0
+00043A  E00000     CP0 W0
+00043C  320011     BRA Z, .L3
+36:                            {
+37:                                tasks[task_nr].sleep_for--; // this task has lower priority so sleeping for now
+00043E  FB811E     ZE [W14], W2
+000440  2002A0     MOV #0x2A, W0
+000442  B99000     MUL.SS W2, W0, W0
+000444  780000     MOV W0, W0
+000446  200241     MOV #0x24, W1
+000448  408080     ADD W1, W0, W1
+00044A  208000     MOV #0x800, W0
+00044C  408000     ADD W1, W0, W0
+00044E  780010     MOV [W0], W0
+000450  E90180     DEC W0, W3
+000452  2002A0     MOV #0x2A, W0
+000454  B99000     MUL.SS W2, W0, W0
+000456  780080     MOV W0, W1
+000458  208240     MOV #0x824, W0
+00045A  408000     ADD W1, W0, W0
+00045C  780803     MOV W3, [W0]
+00045E  370017     BRA .L4
+38:                            }
+39:                            else
+40:                            {
+41:                                TaskRecall(&tasks[task_nr]);
+000460  FB809E     ZE [W14], W1
+000462  2002A0     MOV #0x2A, W0
+000464  B98800     MUL.SS W1, W0, W0
+000466  780080     MOV W0, W1
+000468  208000     MOV #0x800, W0
+00046A  408000     ADD W1, W0, W0
+00046C  884BC0     MOV W0, 0x978
+00046E  209500     MOV #0x950, W0
+000470  07FF4C     RCALL _setjmp
+000472  E00000     CP0 W0
+000474  3A000A     BRA NZ, .L5
+000476  EB8000     SETM W0
+000478  880100     MOV W0, SPLIM
+00047A  FB809E     ZE [W14], W1
+00047C  2002A0     MOV #0x2A, W0
+00047E  B98800     MUL.SS W1, W0, W0
+000480  780080     MOV W0, W1
+000482  208000     MOV #0x800, W0
+000484  408000     ADD W1, W0, W0
+000486  200011     MOV #0x1, W1
+000488  07FF4E     RCALL _longjmp
+00048A  804BA0     MOV 0x974, W0
+00048C  880100     MOV W0, SPLIM
+42:                            }
+43:                        }
+44:                    }
+000498  37FFC3     BRA .L7, .LBB2
+45:                    /******/
+46:                    
+47:                    return 0; // never reach here :)
+48:                }
+---  C:/JURA/FTProot/BM/newGO/FW/simulations.X/src/demo_tasks.c  ----------------------------------------
+1:                 #include "coopos.h"
+2:                 #include "demo_tasks.h"
+3:                 
+4:                 // PIC24FJ256DA210 Configuration Bit Settings
+5:                 
+6:                 // 'C' source line config statements
+7:                 
+8:                 // CONFIG4
+9:                 
+10:                // CONFIG3
+11:                #pragma config WPFP = WPFP255           // Write Protection Flash Page Segment Boundary (Highest Page (same as page 170))
+12:                #pragma config SOSCSEL = SOSC           // Secondary Oscillator Power Mode Select (Secondary oscillator is in Default (high drive strength) Oscillator mode)
+13:                #pragma config WUTSEL = LEG             // Voltage Regulator Wake-up Time Select (Default regulator start-up time is used)
+14:                #pragma config ALTPMP = ALPMPDIS        // Alternate PMP Pin Mapping (EPMP pins are in default location mode)
+15:                #pragma config WPDIS = WPDIS            // Segment Write Protection Disable (Segmented code protection is disabled)
+16:                #pragma config WPCFG = WPCFGDIS         // Write Protect Configuration Page Select (Last page (at the top of program memory) and Flash Configuration Words are not write-protected)
+17:                #pragma config WPEND = WPENDMEM         // Segment Write Protection End Page Select (Protected code segment upper boundary is at the last page of program memory; the lower boundary is the code page specified by WPFP)
+18:                
+19:                // CONFIG2
+20:                #pragma config POSCMOD = NONE           // Primary Oscillator Select (Primary oscillator is disabled)
+21:                #pragma config IOL1WAY = ON             // IOLOCK One-Way Set Enable (The IOLOCK bit (OSCCON<6>) can be set once, provided the unlock sequence has been completed. Once set, the Peripheral Pin Select registers cannot be written to a second time.)
+22:                #pragma config OSCIOFNC = ON            // OSCO Pin Configuration (OSCO/CLKO/RC15 functions as port I/O (RC15))
+23:                #pragma config FCKSM = CSDCMD           // Clock Switching and Fail-Safe Clock Monitor (Clock switching and Fail-Safe Clock Monitor are disabled)
+24:                #pragma config FNOSC = FRCPLL           // Initial Oscillator Select (Fast RC Oscillator with Postscaler and PLL module (FRCPLL))
+25:                #pragma config PLL96MHZ = ON            // 96MHz PLL Startup Select (96 MHz PLL is enabled automatically on start-up)
+26:                #pragma config PLLDIV = DIV2            // 96 MHz PLL Prescaler Select (Oscillator input is divided by 2 (8 MHz input))
+27:                #pragma config IESO = ON                // Internal External Switchover (IESO mode (Two-Speed Start-up) is enabled)
+28:                
+29:                // CONFIG1
+30:                #pragma config WDTPS = PS32768          // Watchdog Timer Postscaler (1:32,768)
+31:                #pragma config FWPSA = PR128            // WDT Prescaler (Prescaler ratio of 1:128)
+32:                #pragma config ALTVREF = ALTVREDIS      // Alternate VREF location Enable (VREF is on a default pin (VREF+ on RA9 and VREF- on RA10))
+33:                #pragma config WINDIS = OFF             // Windowed WDT (Standard Watchdog Timer enabled,(Windowed-mode is disabled))
+34:                #pragma config FWDTEN = ON              // Watchdog Timer (Watchdog Timer is enabled)
+35:                #pragma config ICS = PGx1               // Emulator Pin Placement Select bits (Emulator functions are shared with PGEC1/PGED1)
+36:                #pragma config GWRP = OFF               // General Segment Write Protect (Writes to program memory are allowed)
+37:                #pragma config GCP = OFF                // General Segment Code Protect (Code protection is disabled)
+38:                #pragma config JTAGEN = OFF             // JTAG Port Disable
+39:                
+40:                void SystemInit(void)
+41:                {
+00034A  FA0000     LNK #0x0
+42:                    // init oscillator
+43:                    CLKDIVbits.CPDIV = 0; // 32 MHz (16 MIPS)
+00034C  803A21     MOV CLKDIV, W1
+00034E  2FF3F0     MOV #0xFF3F, W0
+000350  608000     AND W1, W0, W0
+000352  883A20     MOV W0, CLKDIV
+44:                    CLKDIVbits.RCDIV = 0;
+000354  803A21     MOV CLKDIV, W1
+000356  2F8FF0     MOV #0xF8FF, W0
+000358  608000     AND W1, W0, W0
+00035A  883A20     MOV W0, CLKDIV
+45:                    CLKDIVbits.PLLEN = 1;
+00035C  A8A744     BSET CLKDIV, #5
+46:                
+47:                    // LED
+48:                    ANSGbits.ANSG8 = 0; // digital
+00035E  A904ED     BCLR 0x4ED, #0
+49:                    TRISGbits.TRISG8 = 0; // output
+000360  A902F1     BCLR 0x2F1, #0
+50:                    
+51:                    // init UART - end module dependant
+52:                    RPINR18bits.U1RXR = 11u;
+000362  803521     MOV RPINR18, W1
+000364  2FFC00     MOV #0xFFC0, W0
+000366  608000     AND W1, W0, W0
+000368  B300B0     IOR #0xB, W0
+00036A  883520     MOV W0, RPINR18
+53:                    RPOR8bits.RP16R = 3; //3 = U1TX
+00036C  803681     MOV RPOR8, W1
+00036E  2FFC00     MOV #0xFFC0, W0
+000370  608000     AND W1, W0, W0
+000372  B30030     IOR #0x3, W0
+000374  883680     MOV W0, RPOR8
+54:                    U1MODEbits.BRGH = 1; // high speed
+000376  A86220     BSET U1MODE, #3
+55:                    U1BRG = 6u; // 576000 baud @ Fcy = 16 MHz
+000378  200060     MOV #0x6, W0
+00037A  881140     MOV W0, U1BRG
+56:                    U1MODEbits.UARTEN = 1; // enable
+00037C  A8E221     BSET 0x221, #7
+57:                    U1STAbits.UTXEN = 1;
+00037E  A84223     BSET 0x223, #2
+58:                    //U1STAbits.OERR = 0; // clear potential overrun error
+59:                }
+000380  FA8000     ULNK
+000382  060000     RETURN
+60:                
+61:                uint8_t Read_UART(void)
+62:                {
+000384  FA0002     LNK #0x2
+63:                    uint8_t ch = 0xFF;
+000386  EBC000     SETM.B W0
+000388  784F00     MOV.B W0, [W14]
+64:                    
+65:                	while(U1STAbits.URXDA == 0)
+00038A  370009     BRA .L3
+00039E  801110     MOV U1STA, W0
+0003A0  600061     AND W0, #0x1, W0
+0003A2  E00000     CP0 W0
+0003A4  32FFF3     BRA Z, .L5
+66:                    {
+67:                        ClrWdt();
+00038C  FE6000     CLRWDT
+68:                        if(U1STAbits.OERR)
+00038E  801110     MOV U1STA, W0
+000390  600062     AND W0, #0x2, W0
+000392  E00000     CP0 W0
+000394  320004     BRA Z, .L3
+69:                        {
+70:                            ch = 0; // error
+000396  EB4000     CLR.B W0
+000398  784F00     MOV.B W0, [W14]
+71:                            U1STAbits.OERR = 0; // clear and flush buffer
+00039A  A92222     BCLR U1STA, #1
+72:                            break;
+00039C  370004     BRA .L4
+73:                        }
+74:                    }
+75:                    if(ch == 0xFF)
+0003A6  78401E     MOV.B [W14], W0
+0003A8  404FE1     ADD.B W0, #0x1, [W15]
+0003AA  3A0002     BRA NZ, .L6
+76:                    {
+77:                        ch = U1RXREG;
+0003AC  801130     MOV U1RXREG, W0
+0003AE  784F00     MOV.B W0, [W14]
+78:                    }
+79:                    
+80:                	return ch;
+0003B0  78401E     MOV.B [W14], W0
+81:                }
+0003B2  FA8000     ULNK
+0003B4  060000     RETURN
+82:                
+83:                void Send_UART(uint8_t ch)
+84:                {
+0003B6  FA0002     LNK #0x2
+0003B8  784F00     MOV.B W0, [W14]
+85:                    ClrWdt();
+0003BA  FE6000     CLRWDT
+86:                    while(U1STAbits.UTXBF == 1) {}
+0003BC  000000     NOP
+0003BE  801111     MOV U1STA, W1
+0003C0  202000     MOV #0x200, W0
+0003C2  608000     AND W1, W0, W0
+0003C4  E00000     CP0 W0
+0003C6  3AFFFB     BRA NZ, .L8
+87:                    U1TXREG = ch;
+0003C8  FB801E     ZE [W14], W0
+0003CA  881120     MOV W0, U1TXREG
+88:                }
+0003CC  FA8000     ULNK
+0003CE  060000     RETURN
+89:                
+90:                void Task_A(task_context_t* my_tcon)
+91:                {
+0003D0  FA0004     LNK #0x4
+0003D2  980710     MOV W0, [W14+2]
+92:                    int i = 0;
+0003D4  EB0000     CLR W0
+0003D6  780F00     MOV W0, [W14]
+93:                    while(1)
+94:                    {
+95:                        LATGbits.LATG8 = 1;
+0003D8  A802F5     BSET 0x2F5, #0
+96:                        Yield(0);
+0003DA  804BC0     MOV 0x978, W0
+0003DC  EB0080     CLR W1
+0003DE  981021     MOV W1, [W0+36]
+0003E0  804BC0     MOV 0x978, W0
+0003E2  07FF93     RCALL _setjmp
+0003E4  E00000     CP0 W0
+0003E6  3A0005     BRA NZ, .L10
+0003E8  EB8000     SETM W0
+0003EA  880100     MOV W0, SPLIM
+0003EC  200011     MOV #0x1, W1
+0003EE  209500     MOV #0x950, W0
+0003F0  07FF9A     RCALL _longjmp
+0003F2  804BC0     MOV 0x978, W0
+0003F4  901040     MOV [W0+40], W0
+0003F6  780080     MOV W0, W1
+0003F8  804BC0     MOV 0x978, W0
+0003FA  901030     MOV [W0+38], W0
+0003FC  408000     ADD W1, W0, W0
+0003FE  500064     SUB W0, #0x4, W0
+000400  880100     MOV W0, SPLIM
+97:                        LATGbits.LATG8 = 0;
+000402  A902F5     BCLR 0x2F5, #0
+98:                        
+99:                        i++;
+000404  E80F1E     INC [W14], [W14]
+100:                   }
+000406  37FFE8     BRA .L11
+101:               }
+102:               
+103:               void TasksInit(void)
+104:               {
+000408  FA0000     LNK #0x0
+105:                   while(1)
+106:                   {
+107:                       Send_UART(Read_UART());
+00040A  07FFBC     RCALL Read_UART
+00040C  07FFD4     RCALL Send_UART
+108:                   }
+00040E  37FFFD     BRA .L13
+109:                   
+110:                   uint8_t tmp8 = 0;
+111:                   // task #0
+112:                   tasks[tmp8].stack_size = 256; // set heap-size to sum of all stack-sizes (as minimum)
+113:                   TaskInit(&tasks[tmp8], Task_A); // WARNING: do not use ++ operator in macro-call !
+114:                   tmp8++;
+115:                   // TODO: other task here
+116:                   kernel_context.nr_of_registered_tasks = tmp8;
+117:               }
