@@ -30,12 +30,12 @@ ifeq ($(TYPE_IMAGE), DEBUG_RUN)
 IMAGE_TYPE=debug
 OUTPUT_SUFFIX=elf
 DEBUGGABLE_SUFFIX=elf
-FINAL_IMAGE=dist/${CND_CONF}/${IMAGE_TYPE}/simulations.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
+FINAL_IMAGE=dist/${CND_CONF}/${IMAGE_TYPE}/coopos.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
 else
 IMAGE_TYPE=production
 OUTPUT_SUFFIX=hex
 DEBUGGABLE_SUFFIX=elf
-FINAL_IMAGE=dist/${CND_CONF}/${IMAGE_TYPE}/simulations.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
+FINAL_IMAGE=dist/${CND_CONF}/${IMAGE_TYPE}/coopos.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
 endif
 
 ifeq ($(COMPARE_BUILD), true)
@@ -88,45 +88,45 @@ FIXDEPS=fixDeps
 ifneq ($(INFORMATION_MESSAGE), )
 	@echo $(INFORMATION_MESSAGE)
 endif
-	${MAKE}  -f nbproject/Makefile-default.mk dist/${CND_CONF}/${IMAGE_TYPE}/simulations.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
+	${MAKE}  -f nbproject/Makefile-default.mk dist/${CND_CONF}/${IMAGE_TYPE}/coopos.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
 
 MP_PROCESSOR_OPTION=24FJ256DA210
 MP_LINKER_FILE_OPTION=,--script=p24FJ256DA210.gld
 # ------------------------------------------------------------------------------------
 # Rules for buildStep: compile
 ifeq ($(TYPE_IMAGE), DEBUG_RUN)
-${OBJECTDIR}/src/main.o: src/main.c  .generated_files/d2a1ea97726c107931ea195835ed1ebb247adbb3.flag .generated_files/962bc46618be7c95b3812f5d19e9a3bb9b615a86.flag
+${OBJECTDIR}/src/main.o: src/main.c  .generated_files/7fdf8a6ca2163a5b432ce9b3dd771c830cc420e6.flag .generated_files/962bc46618be7c95b3812f5d19e9a3bb9b615a86.flag
 	@${MKDIR} "${OBJECTDIR}/src" 
 	@${RM} ${OBJECTDIR}/src/main.o.d 
 	@${RM} ${OBJECTDIR}/src/main.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  src/main.c  -o ${OBJECTDIR}/src/main.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/src/main.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_ICD4=1  -mno-eds-warn  -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off   -std=c99  -mdfp="${DFP_DIR}/xc16"
 	
-${OBJECTDIR}/src/demo_tasks.o: src/demo_tasks.c  .generated_files/69435a7e60eccc746a1dada4817d6c3eb078e0f6.flag .generated_files/962bc46618be7c95b3812f5d19e9a3bb9b615a86.flag
+${OBJECTDIR}/src/demo_tasks.o: src/demo_tasks.c  .generated_files/800b53eedc52e01ddbe43c5c9a22810a76e3bac6.flag .generated_files/962bc46618be7c95b3812f5d19e9a3bb9b615a86.flag
 	@${MKDIR} "${OBJECTDIR}/src" 
 	@${RM} ${OBJECTDIR}/src/demo_tasks.o.d 
 	@${RM} ${OBJECTDIR}/src/demo_tasks.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  src/demo_tasks.c  -o ${OBJECTDIR}/src/demo_tasks.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/src/demo_tasks.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_ICD4=1  -mno-eds-warn  -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off   -std=c99  -mdfp="${DFP_DIR}/xc16"
 	
-${OBJECTDIR}/src/traps.o: src/traps.c  .generated_files/7031037897aa05dc7d47a275d872e5ef3b5067e5.flag .generated_files/962bc46618be7c95b3812f5d19e9a3bb9b615a86.flag
+${OBJECTDIR}/src/traps.o: src/traps.c  .generated_files/12900524fd4f5658599e7ed4cd9325b0935d71aa.flag .generated_files/962bc46618be7c95b3812f5d19e9a3bb9b615a86.flag
 	@${MKDIR} "${OBJECTDIR}/src" 
 	@${RM} ${OBJECTDIR}/src/traps.o.d 
 	@${RM} ${OBJECTDIR}/src/traps.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  src/traps.c  -o ${OBJECTDIR}/src/traps.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/src/traps.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_ICD4=1  -mno-eds-warn  -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off   -std=c99  -mdfp="${DFP_DIR}/xc16"
 	
 else
-${OBJECTDIR}/src/main.o: src/main.c  .generated_files/2628998605cac90544b6ee6808afe997cb7636f1.flag .generated_files/962bc46618be7c95b3812f5d19e9a3bb9b615a86.flag
+${OBJECTDIR}/src/main.o: src/main.c  .generated_files/a55f2026d8e781f540030a81f47470739050f510.flag .generated_files/962bc46618be7c95b3812f5d19e9a3bb9b615a86.flag
 	@${MKDIR} "${OBJECTDIR}/src" 
 	@${RM} ${OBJECTDIR}/src/main.o.d 
 	@${RM} ${OBJECTDIR}/src/main.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  src/main.c  -o ${OBJECTDIR}/src/main.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/src/main.o.d"      -mno-eds-warn  -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off   -std=c99  -mdfp="${DFP_DIR}/xc16"
 	
-${OBJECTDIR}/src/demo_tasks.o: src/demo_tasks.c  .generated_files/6c336b0fdb6bea0d757303cfbe0147d61e6d88ab.flag .generated_files/962bc46618be7c95b3812f5d19e9a3bb9b615a86.flag
+${OBJECTDIR}/src/demo_tasks.o: src/demo_tasks.c  .generated_files/e7479f11139ecc5486c8dcd6627d9b9b00059931.flag .generated_files/962bc46618be7c95b3812f5d19e9a3bb9b615a86.flag
 	@${MKDIR} "${OBJECTDIR}/src" 
 	@${RM} ${OBJECTDIR}/src/demo_tasks.o.d 
 	@${RM} ${OBJECTDIR}/src/demo_tasks.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  src/demo_tasks.c  -o ${OBJECTDIR}/src/demo_tasks.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/src/demo_tasks.o.d"      -mno-eds-warn  -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off   -std=c99  -mdfp="${DFP_DIR}/xc16"
 	
-${OBJECTDIR}/src/traps.o: src/traps.c  .generated_files/9abf61bb2c7cd42504b919b9cedc7b9ea7f6555a.flag .generated_files/962bc46618be7c95b3812f5d19e9a3bb9b615a86.flag
+${OBJECTDIR}/src/traps.o: src/traps.c  .generated_files/1b817d5b738b31a60ee754f4b3a02ec9eb27891b.flag .generated_files/962bc46618be7c95b3812f5d19e9a3bb9b615a86.flag
 	@${MKDIR} "${OBJECTDIR}/src" 
 	@${RM} ${OBJECTDIR}/src/traps.o.d 
 	@${RM} ${OBJECTDIR}/src/traps.o 
@@ -149,15 +149,15 @@ endif
 # ------------------------------------------------------------------------------------
 # Rules for buildStep: link
 ifeq ($(TYPE_IMAGE), DEBUG_RUN)
-dist/${CND_CONF}/${IMAGE_TYPE}/simulations.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbproject/Makefile-${CND_CONF}.mk    
+dist/${CND_CONF}/${IMAGE_TYPE}/coopos.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbproject/Makefile-${CND_CONF}.mk    
 	@${MKDIR} dist/${CND_CONF}/${IMAGE_TYPE} 
-	${MP_CC} $(MP_EXTRA_LD_PRE)  -o dist/${CND_CONF}/${IMAGE_TYPE}/simulations.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}  ${OBJECTFILES_QUOTED_IF_SPACED}      -mcpu=$(MP_PROCESSOR_OPTION)        -D__DEBUG=__DEBUG -D__MPLAB_DEBUGGER_ICD4=1  -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)   -mreserve=data@0x800:0x81B -mreserve=data@0x81C:0x81D -mreserve=data@0x81E:0x81F -mreserve=data@0x820:0x821 -mreserve=data@0x822:0x823 -mreserve=data@0x824:0x827 -mreserve=data@0x82A:0x84F   -Wl,--local-stack,,--defsym=__MPLAB_BUILD=1,--defsym=__MPLAB_DEBUG=1,--defsym=__DEBUG=1,-D__DEBUG=__DEBUG,--defsym=__MPLAB_DEBUGGER_ICD4=1,$(MP_LINKER_FILE_OPTION),--heap=4096,--stack=16,--check-sections,--data-init,--pack-data,--handles,--isr,--no-gc-sections,--fill-upper=0,--stackguard=16,--no-force-link,--smart-io,-Map="${DISTDIR}/${PROJECTNAME}.${IMAGE_TYPE}.map",--report-mem,--memorysummary,dist/${CND_CONF}/${IMAGE_TYPE}/memoryfile.xml$(MP_EXTRA_LD_POST)  -mdfp="${DFP_DIR}/xc16" 
+	${MP_CC} $(MP_EXTRA_LD_PRE)  -o dist/${CND_CONF}/${IMAGE_TYPE}/coopos.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}  ${OBJECTFILES_QUOTED_IF_SPACED}      -mcpu=$(MP_PROCESSOR_OPTION)        -D__DEBUG=__DEBUG -D__MPLAB_DEBUGGER_ICD4=1  -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)   -mreserve=data@0x800:0x81B -mreserve=data@0x81C:0x81D -mreserve=data@0x81E:0x81F -mreserve=data@0x820:0x821 -mreserve=data@0x822:0x823 -mreserve=data@0x824:0x827 -mreserve=data@0x82A:0x84F   -Wl,--local-stack,,--defsym=__MPLAB_BUILD=1,--defsym=__MPLAB_DEBUG=1,--defsym=__DEBUG=1,-D__DEBUG=__DEBUG,--defsym=__MPLAB_DEBUGGER_ICD4=1,$(MP_LINKER_FILE_OPTION),--heap=4096,--stack=16,--check-sections,--data-init,--pack-data,--handles,--isr,--no-gc-sections,--fill-upper=0,--stackguard=16,--no-force-link,--smart-io,-Map="${DISTDIR}/${PROJECTNAME}.${IMAGE_TYPE}.map",--report-mem,--memorysummary,dist/${CND_CONF}/${IMAGE_TYPE}/memoryfile.xml$(MP_EXTRA_LD_POST)  -mdfp="${DFP_DIR}/xc16" 
 	
 else
-dist/${CND_CONF}/${IMAGE_TYPE}/simulations.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbproject/Makefile-${CND_CONF}.mk   
+dist/${CND_CONF}/${IMAGE_TYPE}/coopos.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbproject/Makefile-${CND_CONF}.mk   
 	@${MKDIR} dist/${CND_CONF}/${IMAGE_TYPE} 
-	${MP_CC} $(MP_EXTRA_LD_PRE)  -o dist/${CND_CONF}/${IMAGE_TYPE}/simulations.X.${IMAGE_TYPE}.${DEBUGGABLE_SUFFIX}  ${OBJECTFILES_QUOTED_IF_SPACED}      -mcpu=$(MP_PROCESSOR_OPTION)        -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -Wl,--local-stack,,--defsym=__MPLAB_BUILD=1,$(MP_LINKER_FILE_OPTION),--heap=4096,--stack=16,--check-sections,--data-init,--pack-data,--handles,--isr,--no-gc-sections,--fill-upper=0,--stackguard=16,--no-force-link,--smart-io,-Map="${DISTDIR}/${PROJECTNAME}.${IMAGE_TYPE}.map",--report-mem,--memorysummary,dist/${CND_CONF}/${IMAGE_TYPE}/memoryfile.xml$(MP_EXTRA_LD_POST)  -mdfp="${DFP_DIR}/xc16" 
-	${MP_CC_DIR}\\xc16-bin2hex dist/${CND_CONF}/${IMAGE_TYPE}/simulations.X.${IMAGE_TYPE}.${DEBUGGABLE_SUFFIX} -a  -omf=elf   -mdfp="${DFP_DIR}/xc16" 
+	${MP_CC} $(MP_EXTRA_LD_PRE)  -o dist/${CND_CONF}/${IMAGE_TYPE}/coopos.X.${IMAGE_TYPE}.${DEBUGGABLE_SUFFIX}  ${OBJECTFILES_QUOTED_IF_SPACED}      -mcpu=$(MP_PROCESSOR_OPTION)        -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -Wl,--local-stack,,--defsym=__MPLAB_BUILD=1,$(MP_LINKER_FILE_OPTION),--heap=4096,--stack=16,--check-sections,--data-init,--pack-data,--handles,--isr,--no-gc-sections,--fill-upper=0,--stackguard=16,--no-force-link,--smart-io,-Map="${DISTDIR}/${PROJECTNAME}.${IMAGE_TYPE}.map",--report-mem,--memorysummary,dist/${CND_CONF}/${IMAGE_TYPE}/memoryfile.xml$(MP_EXTRA_LD_POST)  -mdfp="${DFP_DIR}/xc16" 
+	${MP_CC_DIR}\\xc16-bin2hex dist/${CND_CONF}/${IMAGE_TYPE}/coopos.X.${IMAGE_TYPE}.${DEBUGGABLE_SUFFIX} -a  -omf=elf   -mdfp="${DFP_DIR}/xc16" 
 	
 endif
 

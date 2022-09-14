@@ -19,12 +19,22 @@ void SystemInit(void);
 void TasksInit(void);
 
 /**
- * @brief Prototype (and demo) task-function.
+ * @brief Prototype (and demo) task-function. UART parser.
  * @param my_tcon   pointer to my task context structure
  */
 void Task_A(task_context_t* my_tcon);
 
+/**
+ * @brief Prototype (and demo) task-function. Checking global variable.
+ * @param my_tcon   pointer to my task context structure
+ */
 void Task_B(task_context_t* my_tcon);
+
+/**
+ * @brief Prototype (and demo) task-function. LED blinking.
+ * @param my_tcon   pointer to my task context structure
+ */
+void Task_C(task_context_t* my_tcon);
 
 
 #endif	/* DEMO_TASKS_H */

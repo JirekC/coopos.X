@@ -37,6 +37,7 @@
 #pragma config GCP = OFF                // General Segment Code Protect (Code protection is disabled)
 #pragma config JTAGEN = OFF             // JTAG Port Disable
 
+task_context_t *uart_task_ptr, *blink_task_ptr;
 volatile char recvd_char = 0;
 volatile char LED = 0;
 
@@ -63,6 +64,11 @@ void SystemInit(void)
     IEC0bits.U1RXIE = 1;
     IFS4bits.U1ERIF = 0;
     IEC4bits.U1ERIE = 1;
+    
+    T1CON = 0x8000; // Fcy, 1:1 (16MHz)
+    PR1 = 15999; // 1 ms
+    IFS0bits.T1IF = 0;
+    IEC0bits.T1IE = 1;
 
     LATGbits.LATG8 = ~LATGbits.LATG8;
 
@@ -77,13 +83,19 @@ void Send_UART(uint8_t ch)
 void TasksInit(void)
 {
     uint8_t tmp8 = 0;
-    // task #0
+    // task #0 - UART parser
     tasks[tmp8].stack_size = 256; // set heap-size to sum of all stack-sizes (as minimum)
     TaskInit(&tasks[tmp8], Task_A); // WARNING: do not use ++ operator in macro-call !
+    uart_task_ptr = &tasks[tmp8];
     tmp8++;
     // task #1
     tasks[tmp8].stack_size = 256; // set heap-size to sum of all stack-sizes (as minimum)
     TaskInit(&tasks[tmp8], Task_B); // WARNING: do not use ++ operator in macro-call !
+    tmp8++;
+    // task #2 - LED blinking
+    tasks[tmp8].stack_size = 256; // set heap-size to sum of all stack-sizes (as minimum)
+    TaskInit(&tasks[tmp8], Task_C); // WARNING: do not use ++ operator in macro-call !
+    blink_task_ptr = &tasks[tmp8];
     tmp8++;
     // TODO: other task here
     kernel_context.nr_of_registered_tasks = tmp8;
@@ -100,11 +112,19 @@ void Task_A(task_context_t* my_tcon)
             {
                 LED = 1;
             }
+            else if (recvd_char == 'D')
+            {
+                TaskDisable(blink_task_ptr);
+            }
+            else if (recvd_char == 'E')
+            {
+                TaskEnable(blink_task_ptr);
+            }
             Send_UART(recvd_char);
             recvd_char = 0;
         }
         i++;
-        Yield(0);
+        Yield(-1); // disable this task (will be enabled from UartRx ISR)
     }
 }
 
@@ -117,18 +137,34 @@ void Task_B(task_context_t* my_tcon)
             LED = 0;
             LATGbits.LATG8 = ~LATGbits.LATG8;
         }
-        Yield(0);
+        Yield(0); // stay active
+    }
+}
+
+void Task_C(task_context_t* my_tcon)
+{
+    while(1)
+    {
+        LATGbits.LATG8 = ~LATGbits.LATG8;
+        Yield(500); // sleep for 500 SysTicks (TMR1-beats)
     }
 }
 
 void __attribute__((__interrupt__, __auto_psv__)) _U1RXInterrupt(void)
 {
     recvd_char = U1RXREG;
+    TaskEnable(uart_task_ptr); // wakeup Task_A()
     IFS0bits.U1RXIF = 0;
 }
 
-void __attribute__((__interrupt__, __auto_psv__)) _U1ErrInterrupt(void)
+void __attribute__((__interrupt__, __no_auto_psv__)) _U1ErrInterrupt(void)
 {
     U1STAbits.OERR = 0; // clear and flush buffer
     IFS4bits.U1ERIF = 0;
+}
+
+void __attribute__((__interrupt__, __auto_psv__)) _T1Interrupt(void)
+{
+    SysTickISR();
+    IFS0bits.T1IF = 0;
 }

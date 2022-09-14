@@ -10,9 +10,9 @@ CND_CONF=default
 CND_DISTDIR=dist
 TMPDIR=build/${CND_CONF}/${IMAGE_TYPE}/tmp-packaging
 TMPDIRNAME=tmp-packaging
-OUTPUT_PATH=dist/${CND_CONF}/${IMAGE_TYPE}/simulations.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
-OUTPUT_BASENAME=simulations.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
-PACKAGE_TOP_DIR=simulations.x/
+OUTPUT_PATH=dist/${CND_CONF}/${IMAGE_TYPE}/coopos.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
+OUTPUT_BASENAME=coopos.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
+PACKAGE_TOP_DIR=coopos.x/
 
 # Functions
 function checkReturnCode
@@ -57,15 +57,15 @@ mkdir -p ${TMPDIR}
 
 # Copy files and create directories and links
 cd "${TOP}"
-makeDirectory ${TMPDIR}/simulations.x/bin
+makeDirectory ${TMPDIR}/coopos.x/bin
 copyFileToTmpDir "${OUTPUT_PATH}" "${TMPDIR}/${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}" 0755
 
 
 # Generate tar file
 cd "${TOP}"
-rm -f ${CND_DISTDIR}/${CND_CONF}/package/simulations.x.tar
+rm -f ${CND_DISTDIR}/${CND_CONF}/package/coopos.x.tar
 cd ${TMPDIR}
-tar -vcf ../../../../${CND_DISTDIR}/${CND_CONF}/package/simulations.x.tar *
+tar -vcf ../../../../${CND_DISTDIR}/${CND_CONF}/package/coopos.x.tar *
 checkReturnCode
 
 # Cleanup

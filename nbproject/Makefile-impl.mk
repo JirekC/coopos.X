@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=simulations.X
+PROJECTNAME=coopos.X
 
 # Active Configuration
 DEFAULTCONF=default
