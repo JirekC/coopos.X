@@ -13,7 +13,7 @@
 #include <stdlib.h>
 #include "xc.h"
 
-#define MAX_TASKS   (8u)
+#define MAX_TASKS   (12u)
 #define WALL_CLK_T  uint64_t
 
 typedef struct {
@@ -44,15 +44,20 @@ extern kernel_context_t kernel_context;
 
 /**
  * @brief   Initializes task's enviroment and call it for first time.
- * @note    Stack and stack-limiter initialization is handled explicitly
  * @note    Stack-limiter restoration handled explicitly - setjmp() don't care about SPLIM
- * @pre     tc must be valid and tc.stack_size must be initialized properly
  * @todo    handle situation when malloc returns NULL
- * @param tc_ptr    task_context_t* : pointer to initialized task context structure, must be in CPU-register not on stack
- * @param func      name of task function, do not use function pointer (is passed by stack and stack is exchanged here)
+ * @param tc_ptr    [out] task_context_t* : pointer to created task context structure, NULL when tasks[] is full
+ * @param func      [in] name of task function, do not use function pointer (is passed by stack and stack is exchanged here)
+ * @param st_size   [in] sizeof stack (in Bytes, will be allocated here)
  */
-#define TaskInit(tc_ptr, func) do { \
-    kernel_context.active_task = (tc_ptr); \
+#define TaskInit(tc_ptr, func, st_size) do { \
+    if(kernel_context.nr_of_registered_tasks >= MAX_TASKS) { \
+        (tc_ptr)= NULL; \
+        break; } \
+    kernel_context.active_task = &tasks[kernel_context.nr_of_registered_tasks]; \
+    (tc_ptr) = kernel_context.active_task; \
+    kernel_context.nr_of_registered_tasks++; \
+    kernel_context.active_task->stack_size = (st_size); \
     kernel_context.active_task->stack = malloc(kernel_context.active_task->stack_size); \
     INTERRUPT_PROTECT(kernel_context.active_task->sleep_for = 0); \
     if(setjmp(kernel_context.buf) == 0) { \

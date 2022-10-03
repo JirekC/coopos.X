@@ -95,38 +95,38 @@ MP_LINKER_FILE_OPTION=,--script=p24FJ256DA210.gld
 # ------------------------------------------------------------------------------------
 # Rules for buildStep: compile
 ifeq ($(TYPE_IMAGE), DEBUG_RUN)
-${OBJECTDIR}/src/main.o: src/main.c  .generated_files/7fdf8a6ca2163a5b432ce9b3dd771c830cc420e6.flag .generated_files/962bc46618be7c95b3812f5d19e9a3bb9b615a86.flag
+${OBJECTDIR}/src/main.o: src/main.c  .generated_files/4102f64c6c205189be035be4962d4ee08fbe5187.flag .generated_files/962bc46618be7c95b3812f5d19e9a3bb9b615a86.flag
 	@${MKDIR} "${OBJECTDIR}/src" 
 	@${RM} ${OBJECTDIR}/src/main.o.d 
 	@${RM} ${OBJECTDIR}/src/main.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  src/main.c  -o ${OBJECTDIR}/src/main.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/src/main.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_ICD4=1  -mno-eds-warn  -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off   -std=c99  -mdfp="${DFP_DIR}/xc16"
 	
-${OBJECTDIR}/src/demo_tasks.o: src/demo_tasks.c  .generated_files/800b53eedc52e01ddbe43c5c9a22810a76e3bac6.flag .generated_files/962bc46618be7c95b3812f5d19e9a3bb9b615a86.flag
+${OBJECTDIR}/src/demo_tasks.o: src/demo_tasks.c  .generated_files/532d3db1114afe63ec57af1a2b6416f7158fe982.flag .generated_files/962bc46618be7c95b3812f5d19e9a3bb9b615a86.flag
 	@${MKDIR} "${OBJECTDIR}/src" 
 	@${RM} ${OBJECTDIR}/src/demo_tasks.o.d 
 	@${RM} ${OBJECTDIR}/src/demo_tasks.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  src/demo_tasks.c  -o ${OBJECTDIR}/src/demo_tasks.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/src/demo_tasks.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_ICD4=1  -mno-eds-warn  -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off   -std=c99  -mdfp="${DFP_DIR}/xc16"
 	
-${OBJECTDIR}/src/traps.o: src/traps.c  .generated_files/12900524fd4f5658599e7ed4cd9325b0935d71aa.flag .generated_files/962bc46618be7c95b3812f5d19e9a3bb9b615a86.flag
+${OBJECTDIR}/src/traps.o: src/traps.c  .generated_files/37b7483e04721c9dc667147ce96bf0d8e3880755.flag .generated_files/962bc46618be7c95b3812f5d19e9a3bb9b615a86.flag
 	@${MKDIR} "${OBJECTDIR}/src" 
 	@${RM} ${OBJECTDIR}/src/traps.o.d 
 	@${RM} ${OBJECTDIR}/src/traps.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  src/traps.c  -o ${OBJECTDIR}/src/traps.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/src/traps.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_ICD4=1  -mno-eds-warn  -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off   -std=c99  -mdfp="${DFP_DIR}/xc16"
 	
 else
-${OBJECTDIR}/src/main.o: src/main.c  .generated_files/a55f2026d8e781f540030a81f47470739050f510.flag .generated_files/962bc46618be7c95b3812f5d19e9a3bb9b615a86.flag
+${OBJECTDIR}/src/main.o: src/main.c  .generated_files/a715daa81b1d2febd5c823a6ee63ea6867eee1b8.flag .generated_files/962bc46618be7c95b3812f5d19e9a3bb9b615a86.flag
 	@${MKDIR} "${OBJECTDIR}/src" 
 	@${RM} ${OBJECTDIR}/src/main.o.d 
 	@${RM} ${OBJECTDIR}/src/main.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  src/main.c  -o ${OBJECTDIR}/src/main.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/src/main.o.d"      -mno-eds-warn  -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off   -std=c99  -mdfp="${DFP_DIR}/xc16"
 	
-${OBJECTDIR}/src/demo_tasks.o: src/demo_tasks.c  .generated_files/e7479f11139ecc5486c8dcd6627d9b9b00059931.flag .generated_files/962bc46618be7c95b3812f5d19e9a3bb9b615a86.flag
+${OBJECTDIR}/src/demo_tasks.o: src/demo_tasks.c  .generated_files/4e55e0ae1592c240dc2b9a82140616bdb931bc98.flag .generated_files/962bc46618be7c95b3812f5d19e9a3bb9b615a86.flag
 	@${MKDIR} "${OBJECTDIR}/src" 
 	@${RM} ${OBJECTDIR}/src/demo_tasks.o.d 
 	@${RM} ${OBJECTDIR}/src/demo_tasks.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  src/demo_tasks.c  -o ${OBJECTDIR}/src/demo_tasks.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/src/demo_tasks.o.d"      -mno-eds-warn  -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off   -std=c99  -mdfp="${DFP_DIR}/xc16"
 	
-${OBJECTDIR}/src/traps.o: src/traps.c  .generated_files/1b817d5b738b31a60ee754f4b3a02ec9eb27891b.flag .generated_files/962bc46618be7c95b3812f5d19e9a3bb9b615a86.flag
+${OBJECTDIR}/src/traps.o: src/traps.c  .generated_files/586f661d9c5da9ef0e52659cee9351b03e506e04.flag .generated_files/962bc46618be7c95b3812f5d19e9a3bb9b615a86.flag
 	@${MKDIR} "${OBJECTDIR}/src" 
 	@${RM} ${OBJECTDIR}/src/traps.o.d 
 	@${RM} ${OBJECTDIR}/src/traps.o 

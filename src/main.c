@@ -2,7 +2,7 @@
  * File:   main.c
  * Author: Jura
  *
- * Created on 7. zá?í 2022, 21:02
+ * Created on 7. zï¿½?ï¿½ 2022, 21:02
  * 
  * @note compile witch "-std=c99" option
  */
@@ -74,9 +74,9 @@ WALL_CLK_T GetWallClock(void)
 void SysTickISR(void)
 {
     wall_clock++;
-    for(uint8_t i = 0; i < MAX_TASKS; i++)
+    for(uint8_t i = 0; i < kernel_context.nr_of_registered_tasks; i++)
     {
-        // update all (even not used) task-slots
+        // update all task-slots
         // no nested interrupts here
         INTERRUPT_PROTECT(
             if(tasks[i].sleep_for > 0)

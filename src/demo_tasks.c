@@ -70,6 +70,8 @@ void SystemInit(void)
     IFS0bits.T1IF = 0;
     IEC0bits.T1IE = 1;
 
+    /* TODO: other peripherials here */
+
     LATGbits.LATG8 = ~LATGbits.LATG8;
 
 }
@@ -82,28 +84,27 @@ void Send_UART(uint8_t ch)
 
 void TasksInit(void)
 {
-    uint8_t tmp8 = 0;
+    task_context_t *dummy;
+
     // task #0 - UART parser
-    tasks[tmp8].stack_size = 256; // set heap-size to sum of all stack-sizes (as minimum)
-    TaskInit(&tasks[tmp8], Task_A); // WARNING: do not use ++ operator in macro-call !
-    uart_task_ptr = &tasks[tmp8];
-    tmp8++;
+    TaskInit(uart_task_ptr, Task_A, 256);
     // task #1
-    tasks[tmp8].stack_size = 256; // set heap-size to sum of all stack-sizes (as minimum)
-    TaskInit(&tasks[tmp8], Task_B); // WARNING: do not use ++ operator in macro-call !
-    tmp8++;
+    TaskInit(dummy, Task_B, 256);
     // task #2 - LED blinking
-    tasks[tmp8].stack_size = 256; // set heap-size to sum of all stack-sizes (as minimum)
-    TaskInit(&tasks[tmp8], Task_C); // WARNING: do not use ++ operator in macro-call !
-    blink_task_ptr = &tasks[tmp8];
-    tmp8++;
-    // TODO: other task here
-    kernel_context.nr_of_registered_tasks = tmp8;
+    TaskInit(blink_task_ptr, Task_C, 256);
+
+    /* TODO: other task here */
+
 }
 
 void Task_A(task_context_t* my_tcon)
 {
     uint8_t i = 0;
+    
+    // task is first-time called during initialization,
+    // so simply Yield here for first time
+    Yield(0);
+    // task has to NEVER end
     while(1)
     {
         if(recvd_char > 0)
@@ -130,6 +131,7 @@ void Task_A(task_context_t* my_tcon)
 
 void Task_B(task_context_t* my_tcon)
 {
+    Yield(0);
     while(1)
     {
         if(LED > 0)
@@ -143,6 +145,7 @@ void Task_B(task_context_t* my_tcon)
 
 void Task_C(task_context_t* my_tcon)
 {
+    Yield(0);
     while(1)
     {
         LATGbits.LATG8 = ~LATGbits.LATG8;
